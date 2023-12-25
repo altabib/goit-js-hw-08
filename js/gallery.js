@@ -79,7 +79,7 @@ alt=${description} width="340"/>
 </li>
 `).join("");
 gallery.insertAdjacentHTML("afterbegin", markup);
-console.log(markup);
+// console.log(markup);
 gallery.addEventListener("click", eventImg);
 
 function eventImg(event) {
@@ -91,22 +91,25 @@ function eventImg(event) {
     `<div class ="modal">
   <a class="gallery-link" href="${event.target.dataset.source}">
   <img class="gallery-img" src="${event.target.dataset.source}" 
-  alt="${event.target.description}"/>
+  alt="${event.target.alt}"/>
   </a> </div>`,
     {
       onShow: () => {
-        document.addEventListener("keydown", ()=>
-        instance.close()
-        );
+        document.addEventListener("keydown", modalClose);
       },
       onClose: () => {
-        document.removeEventListener("keydown", () =>
-          instance.close()
-        );
+        document.removeEventListener("keydown", modalClose);
       },
     }
   );
     instance.show();
+function modalClose(event) {
+  event.preventDefault();
+  if (event.code === "Escape") {
+    console.log("Escape");
+    document.removeEventListener("keydown", modalClose);
+    instance.close();
+  }
+}
 };
-
 
